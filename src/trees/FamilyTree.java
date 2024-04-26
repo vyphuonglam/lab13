@@ -138,6 +138,7 @@ public class FamilyTree
 	{
 		// Extract parent and array of children.
 		int colonIndex = line.indexOf(":"); //should be the index of the colon in line.
+<<<<<<< HEAD
 		if (colonIndex < 0) {
 			throw new TreeException("Index out of bounds"); //a TreeException with a useful message
 		}
@@ -147,10 +148,25 @@ public class FamilyTree
 				                   //the line. You'll use a different version of substring().
 		String[] childrenArray = childrenString.split(","); //Call childrenString.split(). Check the API for details. The result will be an array
 				                    //of strings, with the separating commas thrown away.
+=======
+		if (colonIndex < 0)
+			throw new TreeException("Invalid line format: " + line);
+//		String parent = // The substring of line that starts at char #0 and ends just before colonIndex. Check the API for 
+//				           class java.util.String, method substring(), if you need guidance.
+//		String childrenString = // The substring of line that starts just after colonIndex and goes through the end of
+//				                   the line. You'll use a different version of substring().
+//		String[] childrenArray = // Call childrenString.split(). Check the API for details. The result will be an array
+//				                    of strings, with the separating commas thrown away.
+		String parent = line.substring(0, colonIndex);
+        String childrenString = line.substring(colonIndex + 1);
+        String[] childrenArray = childrenString.split(",");
+		
+>>>>>>> bcf1ce1c399f0f6fa79c889ec0fe8e1a314a37cf
 		
 		// Find parent node. If root is null then the tree is empty and the
 		// parent node must be constructed. Otherwise the parent node should be 
 		// somewhere in the tree.
+<<<<<<< HEAD
 		TreeNode parentNode;
 		if (root == null) {
 			parentNode = root = new TreeNode(parent);
@@ -167,6 +183,23 @@ public class FamilyTree
 		
 		// Add child nodes to parentNode.
 		//?? For each name in childrenArray, create a new node and add that node to parentNode.
+=======
+        TreeNode parentNode;
+        if (root == null)
+            parentNode = root = new TreeNode(parent);
+        else {
+            parentNode = root.getNodeWithName(parent);
+            if (parentNode == null)
+                throw new TreeException("Parent node '" + parent + "' not found.");
+        }
+		
+		// Add child nodes to parentNode.
+		// For each name in childrenArray, create a new node and add that node to parentNode.
+        for (String childName : childrenArray) {
+            TreeNode childNode = new TreeNode(childName.trim());
+            parentNode.addChild(childNode);
+        }
+>>>>>>> bcf1ce1c399f0f6fa79c889ec0fe8e1a314a37cf
 	}
 	
 	
@@ -180,6 +213,7 @@ public class FamilyTree
 	{
 		// Get nodes for input names.
 		TreeNode node1 = root.getNodeWithName(name1);		// node whose name is name1
+<<<<<<< HEAD
 		if (node1 == null) {
 			throw new TreeException("node1 is null"); //Throw a TreeException with a useful message
 		}
@@ -191,6 +225,17 @@ public class FamilyTree
 		// Get ancestors of node1 and node2.
 		ArrayList<TreeNode> ancestorsOf1 = node1.collectAncestorsToList();
 		ArrayList<TreeNode> ancestorsOf2 = node2.collectAncestorsToList();
+=======
+		if (node1 == null)
+			throw new TreeException("Node '" + name1 + "' not found in the tree.");
+		TreeNode node2 = root.getNodeWithName(name2);		// node whose name is name2
+		if (node2 == null)
+			throw new TreeException("Node '" + name2 + "' not found in the tree.");
+		
+		// Get ancestors of node1 and node2.
+		ArrayList<TreeNode> ancestorsOf1 = node1.collectAncestorsToList();
+        ArrayList<TreeNode> ancestorsOf2 = node2.collectAncestorsToList();
+>>>>>>> bcf1ce1c399f0f6fa79c889ec0fe8e1a314a37cf
 		
 		// Check members of ancestorsOf1 in order until you find a node that is also
 		// an ancestor of 2. 
